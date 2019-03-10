@@ -10,8 +10,8 @@ namespace Domain.Repository
         Depatment Create(Depatment obj);
         Depatment Get(int id);
         List<Depatment> Get();
-        Depatment UpdateName(Depatment obj);
-        Depatment UpdateManager(Depatment obj);
+        void UpdateName(Depatment obj);
+        void UpdateManager(Depatment obj);
         void Delete(int id);
     }
 }

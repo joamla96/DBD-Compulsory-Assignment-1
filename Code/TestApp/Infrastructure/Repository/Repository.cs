@@ -23,15 +23,20 @@ namespace Infrastructure.Repository
                 using (SqlCommand cmd = new SqlCommand("usp_CreateDepartment", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    SqlParameter output = new SqlParameter("@Dnum", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
 
                     cmd.Parameters.Add("@DName", SqlDbType.VarChar).Value = obj.Name;
                     cmd.Parameters.Add("@MgrSSN", SqlDbType.VarChar).Value = obj.MgrSSN;
+                    cmd.Parameters.Add(output);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
+                    return Get(int.Parse((string)cmd.Parameters["@Dnum"].Value));
                 }
             }
-            return null;
         }
 
         public void Delete(int id)
@@ -106,7 +111,7 @@ namespace Infrastructure.Repository
             return temp;
         }
 
-        public Depatment UpdateManager(Depatment obj)
+        public void UpdateManager(Depatment obj)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
@@ -114,22 +119,16 @@ namespace Infrastructure.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.Add("@DName", SqlDbType.VarChar).Value = obj.Name;
+                    cmd.Parameters.Add("@DNumber", SqlDbType.VarChar).Value = obj.Id;
                     cmd.Parameters.Add("@MgrSSN", SqlDbType.VarChar).Value = obj.MgrSSN;
 
                     con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    if (reader.Read())
-                    {
-                        Console.WriteLine(String.Format("{0}", reader["id"]));
-                    }
+                    cmd.ExecuteNonQuery();
                 }
             }
-            return null;
         }
 
-        public Depatment UpdateName(Depatment obj)
+        public void UpdateName(Depatment obj)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
@@ -144,7 +143,6 @@ namespace Infrastructure.Repository
                     cmd.ExecuteNonQuery();
                 }
             }
-            return null;
         }
     }
 }

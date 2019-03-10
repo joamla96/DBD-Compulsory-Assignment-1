@@ -47,17 +47,16 @@ namespace TestApp
 				var key = Console.ReadKey();
                 Console.Clear();
 
-                var result = "";
                 switch (char.ToLower(key.KeyChar))
 				{
-					case 'a':
-                        Console.WriteLine(db.Create(null));
+                    case 'a':
+                        CreateDep();
                         break;
                     case 'b':
-                        Console.WriteLine(db.UpdateName(null));
+                        UpdateName();
                         break;
                     case 'c':
-                        Console.WriteLine(db.UpdateManager(null));
+                        UpdateManager();
                         break;
                     case 'd':
                         DeleteDep();
@@ -66,8 +65,7 @@ namespace TestApp
                         GetAllDep();
                         break;
                     case 'f':
-                        
-                        result = GetDepInfo();
+                        GetDepInfo();
                         break;
                     default:
 						Console.WriteLine("Unknown Menu Option.");
@@ -81,6 +79,86 @@ namespace TestApp
                 Console.ReadKey();
 			}
 		}
+
+        private void UpdateManager()
+        {
+            Console.WriteLine("Please enter the id of the depatment");
+            int id;
+            Int32.TryParse(Console.ReadLine(), out id);
+
+            Console.WriteLine("Please enter the MgrSSN");
+            int mgrSSN;
+            Int32.TryParse(Console.ReadLine(), out mgrSSN);
+
+            var dep = new Depatment()
+            {
+                MgrSSN = mgrSSN,
+                Id = id
+            };
+
+            try
+            {
+                db.UpdateManager(dep);
+                Console.WriteLine("Item has been updated");
+                Console.WriteLine(db.Get(dep.Id).ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private void UpdateName()
+        {
+            Console.WriteLine("Please enter the id of the depatment");
+            int id;
+            var success = Int32.TryParse(Console.ReadLine(), out id);
+
+            Console.WriteLine("Please enter the name of the depatment");
+            var name = Console.ReadLine();
+
+            var dep = new Depatment()
+            {
+                Name = name,
+                Id = id
+            };
+
+            try
+            {
+                db.UpdateName(dep);
+                Console.WriteLine("Item has been updated");
+                Console.WriteLine(db.Get(dep.Id).ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private void CreateDep()
+        {
+            Console.WriteLine("Please enter the name of the depatment");
+            var name = Console.ReadLine();
+
+            Console.WriteLine("Please enter the MgrSSN");
+            int mgrSSN;
+            var success = Int32.TryParse(Console.ReadLine(), out mgrSSN);
+
+            var dep = new Depatment()
+            {
+                Name = name,
+                MgrSSN = mgrSSN
+            };
+
+            try
+            {
+                Console.WriteLine(db.Create(dep));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
 
         private void DeleteDep()
         {
@@ -110,7 +188,7 @@ namespace TestApp
             }
         }
 
-        private string GetDepInfo(int DNumber)
+        private void GetDepInfo()
         {
             string result;
             Console.WriteLine("Enter the id of the Department you want");
@@ -126,7 +204,6 @@ namespace TestApp
             }
 
             Console.WriteLine(result);
-            return result;
         }
     }
 }
