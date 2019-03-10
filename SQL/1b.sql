@@ -21,7 +21,7 @@ CREATE PROCEDURE usp_UpdateDepartmentName(
 )
 AS
 BEGIN
-	IF (dbo.udf_DepartmentNameExists4(@DName) = 1)
+	IF (dbo.udf_DepartmentNameExists(@DName) = 1)
 	BEGIN
 			RAISERROR('A Department with name already exists', 16, 1);
 	END
