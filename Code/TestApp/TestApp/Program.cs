@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Domain.Entities;
+using Domain.Repository;
+using Infrastructure.Repository;
+using System;
 
 namespace TestApp
 {
@@ -18,10 +21,12 @@ namespace TestApp
 		}
 
 		private bool Running = false;
+        private IRepository db;
 
 		private void Init()
 		{
-			// Any startup stuff...
+            // Any startup stuff...
+            db = new Repository();
 
 			this.Running = true;
 		}
@@ -40,16 +45,31 @@ namespace TestApp
 				Console.WriteLine("\nX. Exit");
 
 				var key = Console.ReadKey();
+                Console.Clear();
 
-				switch(char.ToLower(key.KeyChar))
+                var result = "";
+                switch (char.ToLower(key.KeyChar))
 				{
 					case 'a':
-					case 'b':
-					case 'c':
-					case 'd':
-					case 'e':
-					case 'f':
-					default:
+                        Console.WriteLine(db.Create(null));
+                        break;
+                    case 'b':
+                        Console.WriteLine(db.UpdateName(null));
+                        break;
+                    case 'c':
+                        Console.WriteLine(db.UpdateManager(null));
+                        break;
+                    case 'd':
+                        DeleteDep();
+                        break;
+                    case 'e':
+                        GetAllDep();
+                        break;
+                    case 'f':
+                        
+                        result = GetDepInfo();
+                        break;
+                    default:
 						Console.WriteLine("Unknown Menu Option.");
 						break;
 
@@ -57,7 +77,56 @@ namespace TestApp
 						Running = false;
 						break;
 				}
+
+                Console.ReadKey();
 			}
 		}
-	}
+
+        private void DeleteDep()
+        {
+            Console.WriteLine("Enter the id of the Department you want to delete");
+            try
+            {
+                int DNumber;
+                var success = Int32.TryParse(Console.ReadLine(), out DNumber);
+                Console.Write("Deleting ");
+                Console.WriteLine(db.Get(DNumber).ToString());
+
+                db.Delete(DNumber);
+                Console.WriteLine("The item has been removed");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+        }
+
+        private void GetAllDep()
+        {
+            foreach (var item in db.Get())
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        private string GetDepInfo(int DNumber)
+        {
+            string result;
+            Console.WriteLine("Enter the id of the Department you want");
+            int DNumber;
+            var success = Int32.TryParse(Console.ReadLine(), out DNumber);
+            try
+            {
+                result = db.Get(DNumber).ToString();
+            }
+            catch (Exception e)
+            {
+                result = e.Message;
+            }
+
+            Console.WriteLine(result);
+            return result;
+        }
+    }
 }
