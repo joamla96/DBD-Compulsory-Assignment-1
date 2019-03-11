@@ -14,7 +14,7 @@ namespace Infrastructure.Repository
 
 		public Database()
 		{
-            conString = "Server=ssh.jalawebs.com,1433;Database=;Persist Security Info=False;User ID=sa;Password=Sj@0coL!5Cn5Ia6i;MultipleActiveResultSets = False; Encrypt = True;";
+            conString = "Server=ssh.jalawebs.com;Database=Company;Persist Security Info=False;User ID=sa;Password=Sj@0coL!5Cn5Ia6i;MultipleActiveResultSets = False; Encrypt = False;";
 
             connection = new SqlConnection(conString);
 		}

@@ -72,13 +72,16 @@ namespace Infrastructure.Repository
 
                     while (reader.Read())
                     {
-                        temp = (new Depatment()
-                        {
-                            Name = String.Format("{0}", reader["DName"]),
-                            Id = int.Parse(String.Format("{0}", reader["DNumber"])),
-                            MgrSSN = int.Parse(String.Format("{0}", reader["MgrSSN"])),
-                            MgrStartDate = String.Format("{0}", reader["MgrStartDate"])
-                        });
+						var empCount = String.Format("{0}", reader["EmpCount"]);
+						var noe = (string.IsNullOrWhiteSpace(empCount)) ? 0 : int.Parse(empCount);
+
+						temp = (new Depatment() {
+							Name = String.Format("{0}", reader["DName"]),
+							Id = int.Parse(String.Format("{0}", reader["DNumber"])),
+							MgrSSN = int.Parse(String.Format("{0}", reader["MgrSSN"])),
+							MgrStartDate = String.Format("{0}", reader["MgrStartDate"]),
+							NumOfEmployee = noe
+						});
                     }
                 }
             }
@@ -99,13 +102,16 @@ namespace Infrastructure.Repository
 
                     while (reader.Read())
                     {
-                        temp.Add(new Depatment()
-                        {
-                            Name = String.Format("{0}", reader["DName"]),
-                            Id = int.Parse(String.Format("{0}", reader["DNumber"])),
-                            MgrSSN = int.Parse(String.Format("{0}", reader["MgrSSN"])),
-                            MgrStartDate = String.Format("{0}", reader["MgrStartDate"]),
-                            NumOfEmployee = int.Parse(String.Format("{0}", reader["numberOfEmployee"]))
+						var empCount = String.Format("{0}", reader["EmpCount"]);
+						var noe = (string.IsNullOrWhiteSpace(empCount)) ? 0 : int.Parse(empCount);
+
+
+						temp.Add(new Depatment() {
+							Name = String.Format("{0}", reader["DName"]),
+							Id = int.Parse(String.Format("{0}", reader["DNumber"])),
+							MgrSSN = int.Parse(String.Format("{0}", reader["MgrSSN"])),
+							MgrStartDate = String.Format("{0}", reader["MgrStartDate"]),
+							NumOfEmployee = noe
                         });
                     }
 
