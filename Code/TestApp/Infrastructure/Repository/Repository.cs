@@ -76,7 +76,8 @@ namespace Infrastructure.Repository
                         {
                             Name = String.Format("{0}", reader["DName"]),
                             Id = int.Parse(String.Format("{0}", reader["DNumber"])),
-                            MgrSSN = int.Parse(String.Format("{0}", reader["MgrSSN"]))
+                            MgrSSN = int.Parse(String.Format("{0}", reader["MgrSSN"])),
+                            MgrStartDate = String.Format("{0}", reader["MgrStartDate"])
                         });
                     }
                 }
@@ -102,7 +103,9 @@ namespace Infrastructure.Repository
                         {
                             Name = String.Format("{0}", reader["DName"]),
                             Id = int.Parse(String.Format("{0}", reader["DNumber"])),
-                            MgrSSN = int.Parse(String.Format("{0}", reader["MgrSSN"]))
+                            MgrSSN = int.Parse(String.Format("{0}", reader["MgrSSN"])),
+                            MgrStartDate = String.Format("{0}", reader["MgrStartDate"]),
+                            NumOfEmployee = int.Parse(String.Format("{0}", reader["numberOfEmployee"]))
                         });
                     }
 
